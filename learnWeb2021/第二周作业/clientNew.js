@@ -1,5 +1,6 @@
 //模块
 const net = require("net");
+const parser = require("./parser.js");
 class Request{
   constructor(options){
     this.method = options.method || "GET";
@@ -22,7 +23,6 @@ class Request{
   send(connection){
     return new Promise((resolve,reject)=>{
         const parser = new ResponseParser;
-        console.log(this.toString());
         if(connection){
           connection.write(this.toString());
         }else{
@@ -202,5 +202,6 @@ void async function (){
   });
 
   let response = await request.send();
-  console.log(response);
+  let dom = parser.parserHTML(response.body);
+  console.log(dom);
 }();
